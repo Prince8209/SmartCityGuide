@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Contact Smart City Guide - Get in touch for trip planning help, partnerships, or any questions about exploring India">
+    <title>Contact Us | Smart City Guide</title>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="../assets/css/fonts.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../assets/css/fontawesome-fixed.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <i class="fas fa-city"></i>
+                <span>Smart<span style="font-weight: 800;">CityGuide</span></span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="cities.html" class="nav-link">Cities</a>
+                <a href="features.html" class="nav-link">Features</a>
+                <a href="itinerary.html" class="nav-link">Itinerary</a>
+                <a href="contact.html" class="nav-link active">Contact</a>
+
+                <div class="nav-buttons">
+                    <button class="btn-login" onclick="window.location.href='login.html'">
+                        <i class="fas fa-user"></i> Login
+                    </button>
+                    <button class="btn-signup" onclick="window.location.href='signup.html'">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                </div>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div
+        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 120px 0 60px; text-align: center; color: white;">
+        <div class="container">
+            <h1 style="font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1rem;">Get in Touch</h1>
+            <p style="font-size: 1.2rem; opacity: 0.95; max-width: 600px; margin: 0 auto;">We'd love to hear from you!
+                Reach out with any questions or feedback</p>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="section">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem;">
+
+                <!-- Contact Info Cards -->
+                <div>
+                    <h2 style="margin-bottom: 2rem; color: #2d3748;">Contact Information</h2>
+
+                    <div
+                        style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+                        <div
+                            style="width: 60px; height: 60px; margin-bottom: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-envelope" style="font-size: 1.5rem; color: white;"></i>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem; color: #2d3748;">Email Us</h3>
+                        <p style="color: #718096; margin-bottom: 0.5rem;">Send us an email anytime</p>
+                        <a href="mailto:pp8995982@gmail.com"
+                            style="color: #667eea; font-weight: 600;">pp8995982@gmail.com</a>
+                    </div>
+
+                    <div
+                        style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+                        <div
+                            style="width: 60px; height: 60px; margin-bottom: 1rem; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-phone" style="font-size: 1.5rem; color: white;"></i>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem; color: #2d3748;">Call Us</h3>
+                        <p style="color: #718096; margin-bottom: 0.5rem;">Mon-Sat 9AM to 6PM IST</p>
+                        <a href="tel:+917069300609" style="color: #667eea; font-weight: 600;">+91 7069300609</a>
+                    </div>
+
+                    <div
+                        style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <div
+                            style="width: 60px; height: 60px; margin-bottom: 1rem; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-map-marker-alt" style="font-size: 1.5rem; color: white;"></i>
+                        </div>
+                        <h3 style="margin-bottom: 0.5rem; color: #2d3748;">Visit Us</h3>
+                        <p style="color: #718096; margin-bottom: 0.5rem;">Our office location</p>
+                        <p style="color: #667eea; font-weight: 600;">Mumbai, Maharashtra, India</p>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div>
+                    <h2 style="margin-bottom: 2rem; color: #2d3748;">Send us a Message</h2>
+
+                    <form id="contactForm"
+                        style="background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="name"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2d3748;">Your
+                                Name *</label>
+                            <input type="text" id="name" required
+                                style="width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; transition: 0.3s;">
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="email"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2d3748;">Email
+                                Address *</label>
+                            <input type="email" id="email" required
+                                style="width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; transition: 0.3s;">
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="subject"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2d3748;">Subject</label>
+                            <input type="text" id="subject"
+                                style="width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem;">
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="message"
+                                style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2d3748;">Message
+                                *</label>
+                            <textarea id="message" required rows="5"
+                                style="width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 1rem; resize: vertical;"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn-city" style="width: 100%; padding: 1rem; font-size: 1.1rem;">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <i class="fas fa-city"></i>
+                        <span>Smart<span style="font-weight: 800;">CityGuide</span></span>
+                    </div>
+                    <p class="footer-desc">Your trusted companion for discovering and exploring India's most beautiful
+                        cities.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="cities.html"><i class="fas fa-chevron-right"></i> Cities</a></li>
+                        <li><a href="features.html"><i class="fas fa-chevron-right"></i> Features</a></li>
+                        <li><a href="itinerary.html"><i class="fas fa-chevron-right"></i> Itinerary</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Top Destinations</h4>
+                    <ul class="footer-links">
+                        <li><a href="cities.html#delhi"><i class="fas fa-map-marker-alt"></i> Delhi</a></li>
+                        <li><a href="cities.html#mumbai"><i class="fas fa-map-marker-alt"></i> Mumbai</a></li>
+                        <li><a href="cities.html#goa"><i class="fas fa-map-marker-alt"></i> Goa</a></li>
+                        <li><a href="cities.html#jaipur"><i class="fas fa-map-marker-alt"></i> Jaipur</a></li>
+                        <li><a href="cities.html#kerala"><i class="fas fa-map-marker-alt"></i> Kerala</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Contact Info</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> pp8995982@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +917069300609</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Mumbai, India</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart City Guide. All rights reserved. | Built with â¤ï¸ in India</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        #contactForm input:focus,
+        #contactForm textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+    </style>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+</body>
+
+</html>

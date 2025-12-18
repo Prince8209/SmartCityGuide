@@ -1,0 +1,215 @@
+/* Font Awesome Free 6.5.1 - Fixed for local fonts */
+/* Base classes for icon fonts */
+.fa,
+.fas,
+.far,
+.fal,
+.fat,
+.fad,
+.fab {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    line-height: 1;
+    text-rendering: auto;
+}
+
+.fa,
+.fas {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+.far {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 400;
+}
+
+.fab {
+    font-family: "Font Awesome 6 Brands";
+    font-weight: 400;
+}
+
+/* Font Face Declarations */
+@font-face {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 900;
+    font-display: block;
+    src: url(../webfonts/fa-solid-900.woff2) format("woff2"),
+        url(../webfonts/fa-solid-900.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url(../webfonts/fa-regular-400.woff2) format("woff2"),
+        url(../webfonts/fa-regular-400.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Font Awesome 6 Brands";
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url(../webfonts/fa-brands-400.woff2) format("woff2"),
+        url(../webfonts/fa-brands-400.ttf) format("truetype");
+}
+
+/* Icon definitions */
+.fa-city:before {
+    content: "\f64f";
+}
+
+.fa-user:before {
+    content: "\f007";
+}
+
+.fa-user-plus:before {
+    content: "\f234";
+}
+
+.fa-bars:before {
+    content: "\f0c9";
+}
+
+.fa-search:before {
+    content: "\f002";
+}
+
+.fa-arrow-right:before {
+    content: "\f061";
+}
+
+.fa-map-marker-alt:before {
+    content: "\f3c5";
+}
+
+.fa-users:before {
+    content: "\f0c0";
+}
+
+.fa-star:before {
+    content: "\f005";
+}
+
+.fa-map-marked-alt:before {
+    content: "\f5a0";
+}
+
+.fa-route:before {
+    content: "\f4d7";
+}
+
+.fa-calendar-alt:before {
+    content: "\f073";
+}
+
+.fa-wallet:before {
+    content: "\f555";
+}
+
+.fa-mobile-alt:before {
+    content: "\f3cd";
+}
+
+.fa-clock:before {
+    content: "\f017";
+}
+
+.fa-rupee-sign:before {
+    content: "\f156";
+}
+
+.fa-sun:before {
+    content: "\f185";
+}
+
+.fa-cloud-sun:before {
+    content: "\f6c4";
+}
+
+.fa-cloud-rain:before {
+    content: "\f73d";
+}
+
+.fa-snowflake:before {
+    content: "\f2dc";
+}
+
+.fa-sort:before {
+    content: "\f0dc";
+}
+
+.fa-times:before {
+    content: "\f00d";
+}
+
+.fa-chevron-right:before {
+    content: "\f054";
+}
+
+.fa-envelope:before {
+    content: "\f0e0";
+}
+
+.fa-phone:before {
+    content: "\f095";
+}
+
+.fa-paper-plane:before {
+    content: "\f1d8";
+}
+
+.fa-eye:before {
+    content: "\f06e";
+}
+
+.fa-eye-slash:before {
+    content: "\f070";
+}
+
+.fa-lock:before {
+    content: "\f023";
+}
+
+.fa-sign-in-alt:before {
+    content: "\f2f6";
+}
+
+.fa-arrow-left:before {
+    content: "\f060";
+}
+
+.fa-map:before {
+    content: "\f279";
+}
+
+/* Brand icons */
+.fa-facebook:before {
+    content: "\f09a";
+}
+
+.fa-twitter:before {
+    content: "\f099";
+}
+
+.fa-instagram:before {
+    content: "\f16d";
+}
+
+.fa-linkedin:before {
+    content: "\f08c";
+}
+
+.fa-youtube:before {
+    content: "\f167";
+}
+
+.fa-google:before {
+    content: "\f1a0";
+}

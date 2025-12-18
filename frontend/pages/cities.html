@@ -1,0 +1,358 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Explore incredible Indian cities - Delhi, Mumbai, Goa, Jaipur, Kerala, Bangalore and more. Complete travel guide with budget info and attractions.">
+    <title>Explore Indian Cities | Smart City Guide</title>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="../assets/css/fonts.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <i class="fas fa-city"></i>
+                <span>Smart<span style="font-weight: 800;">CityGuide</span></span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="cities.html" class="nav-link active">Cities</a>
+                <a href="features.html" class="nav-link">Features</a>
+                <a href="itinerary.html" class="nav-link">Itinerary</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+
+                <div class="nav-buttons">
+                    <button class="btn-login" onclick="window.location.href='login.html'">
+                        <i class="fas fa-user"></i> Login
+                    </button>
+                    <button class="btn-signup" onclick="window.location.href='signup.html'">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                </div>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div
+        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 120px 0 60px; text-align: center; color: white;">
+        <div class="container">
+            <h1 style="font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1rem;">Explore Amazing Indian Cities</h1>
+            <p style="font-size: 1.2rem; opacity: 0.95; max-width: 600px; margin: 0 auto;">Discover incredible
+                destinations across India with detailed guides and insider tips</p>
+        </div>
+    </div>
+
+    <!-- Cities Grid -->
+    <section class="section">
+        <div class="container">
+            <!-- Search and Filters -->
+            <div
+                style="background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                <!-- Search Bar -->
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="position: relative;">
+                        <i class="fas fa-search"
+                            style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #667eea;"></i>
+                        <input type="text" id="searchInput"
+                            placeholder="Search cities by name, state, or description..."
+                            style="width: 100%; padding: 0.875rem 1rem 0.875rem 3rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem;">
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                    <!-- Region Filter -->
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2d3748;">
+                            <i class="fas fa-map-marker-alt"></i> Region
+                        </label>
+                        <select id="regionFilter"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.95rem;">
+                            <option value="">All Regions</option>
+                        </select>
+                    </div>
+
+                    <!-- Trip Type Filter -->
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2d3748;">
+                            <i class="fas fa-hiking"></i> Trip Type
+                        </label>
+                        <select id="tripTypeFilter"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.95rem;">
+                            <option value="">All Types</option>
+                        </select>
+                    </div>
+
+                    <!-- Budget Filter -->
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2d3748;">
+                            <i class="fas fa-rupee-sign"></i> Max Budget/Day
+                        </label>
+                        <select id="budgetFilter"
+                            style="width: 100%; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 0.95rem;">
+                            <option value="">Any Budget</option>
+                            <option value="1500">Up to ₹1500</option>
+                            <option value="2000">Up to ₹2000</option>
+                            <option value="2500">Up to ₹2500</option>
+                            <option value="3000">Up to ₹3000</option>
+                        </select>
+                    </div>
+
+                    <!-- Clear Filters Button -->
+                    <div style="display: flex; align-items: flex-end;">
+                        <button id="clearFilters"
+                            style="width: 100%; padding: 0.75rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+                            <i class="fas fa-redo"></i> Clear Filters
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Count -->
+                <div id="resultsCount"
+                    style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; color: #64748b; font-size: 0.95rem;">
+                    Loading cities...
+                </div>
+            </div>
+
+            <!-- Cities Grid Container -->
+            <div id="citiesGrid"
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+                <!-- Cities will be loaded here dynamically -->
+            </div>
+
+            <!-- Load More Button -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <button id="loadMoreBtn" class="btn-load-more"
+                    style="padding: 1rem 2rem; font-size: 1.1rem; display: none;">
+                    Load More <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <i class="fas fa-city"></i>
+                        <span>Smart<span style="font-weight: 800;">CityGuide</span></span>
+                    </div>
+                    <p class="footer-desc">Your trusted companion for discovering and exploring India's most beautiful
+                        cities.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="cities.html"><i class="fas fa-chevron-right"></i> Cities</a></li>
+                        <li><a href="features.html"><i class="fas fa-chevron-right"></i> Features</a></li>
+                        <li><a href="itinerary.html"><i class="fas fa-chevron-right"></i> Itinerary</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Top Destinations</h4>
+                    <ul class="footer-links">
+                        <li><a href="#delhi"><i class="fas fa-map-marker-alt"></i> Delhi</a></li>
+                        <li><a href="#mumbai"><i class="fas fa-map-marker-alt"></i> Mumbai</a></li>
+                        <li><a href="#goa"><i class="fas fa-map-marker-alt"></i> Goa</a></li>
+                        <li><a href="#jaipur"><i class="fas fa-map-marker-alt"></i> Jaipur</a></li>
+                        <li><a href="#kerala"><i class="fas fa-map-marker-alt"></i> Kerala</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>Contact Info</h4>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> pp8995982@gmail.com</li>
+                        <li><i class="fas fa-phone"></i> +917069300609</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Mumbai, India</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart City Guide. All rights reserved. | Built with ❤️ in India</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="booking-modal" style="display: none;">
+        <div class="booking-modal-content">
+            <div id="bookingFormContainer">
+                <div class="booking-modal-header">
+                    <h2><i class="fas fa-calendar-check"></i> Book Your Trip</h2>
+                    <button class="modal-close-btn" onclick="closeBookingModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+                    <input type="hidden" id="bookingCityName">
+                    <input type="hidden" id="bookingDailyBudget">
+                    <div class="form-section">
+                        <h3>Customer Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customerName"><i class="fas fa-user"></i> Full Name *</label>
+                                <input type="text" id="customerName" required placeholder="Enter your full name">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customerEmail"><i class="fas fa-envelope"></i> Email *</label>
+                                <input type="email" id="customerEmail" required placeholder="your@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="customerPhone"><i class="fas fa-phone"></i> Phone *</label>
+                                <input type="tel" id="customerPhone" required placeholder="+91 XXXXX XXXXX">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3>Trip Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="checkInDate"><i class="fas fa-calendar-alt"></i> Check-in Date *</label>
+                                <input type="date" id="checkInDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkOutDate"><i class="fas fa-calendar-alt"></i> Check-out Date *</label>
+                                <input type="date" id="checkOutDate" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="numTravelers"><i class="fas fa-users"></i> Number of Travelers *</label>
+                                <input type="number" id="numTravelers" required min="1" max="20" value="1">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="specialRequests"><i class="fas fa-comment"></i> Special Requests
+                                    (Optional)</label>
+                                <textarea id="specialRequests" rows="3"
+                                    placeholder="Any special requirements..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cost-summary">
+                        <h3>Estimated Cost</h3>
+                        <div class="cost-display">
+                            <span class="cost-label">Total:</span>
+                            <span class="cost-amount" id="totalCostDisplay">₹0</span>
+                        </div>
+                        <div class="cost-breakdown" id="costBreakdown"></div>
+                    </div>
+                    <button type="submit" class="btn-book-submit"><i class="fas fa-check-circle"></i> Confirm
+                        Booking</button>
+                </form>
+            </div>
+            <div id="bookingSuccess" class="booking-success" style="display: none;">
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <h2>Booking Confirmed!</h2>
+                <p>Your trip has been successfully booked.</p>
+                <div class="booking-details">
+                    <div class="detail-row"><span class="detail-label">Booking Reference:</span><span
+                            class="detail-value" id="bookingReference"></span></div>
+                    <div class="detail-row"><span class="detail-label">Destination:</span><span class="detail-value"
+                            id="bookingCity"></span></div>
+                    <div class="detail-row"><span class="detail-label">Dates:</span><span class="detail-value"
+                            id="bookingDates"></span></div>
+                    <div class="detail-row"><span class="detail-label">Travelers:</span><span class="detail-value"
+                            id="bookingTravelers"></span></div>
+                    <div class="detail-row"><span class="detail-label">Total Cost:</span><span class="detail-value"
+                            id="bookingTotal"></span></div>
+                </div>
+                <button id="downloadPdfBtn" class="btn-download-pdf"><i class="fas fa-file-pdf"></i> Download Booking
+                    Confirmation (PDF)</button>
+                <p class="success-note">A confirmation email has been sent to your email address.</p>
+                <button onclick="closeBookingModal()" class="btn-close-success"><i class="fas fa-times"></i>
+                    Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Modal -->
+    <div id="reviewsModal" class="booking-modal" style="display: none;">
+        <div class="booking-modal-content reviews-modal-content">
+            <div class="booking-modal-header">
+                <h2 id="reviewsTitle"><i class="fas fa-star"></i> Reviews</h2>
+                <button class="modal-close-btn" onclick="closeReviewsModal()"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="reviews-container">
+                <div id="reviewsList" class="reviews-list">
+                    <!-- Reviews loaded here -->
+                </div>
+
+                <div class="write-review-section">
+                    <h3>Write a Review</h3>
+                    <form id="reviewForm" onsubmit="handleReviewSubmit(event)">
+                        <div class="rating-input">
+                            <label>Rating:</label>
+                            <div class="star-rating">
+                                <input type="radio" id="star5" name="rating" value="5"><label for="star5"
+                                    title="5 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star4" name="rating" value="4"><label for="star4"
+                                    title="4 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star3" name="rating" value="3"><label for="star3"
+                                    title="3 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star2" name="rating" value="2"><label for="star2"
+                                    title="2 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star1" name="rating" value="1"><label for="star1"
+                                    title="1 star"><i class="fas fa-star"></i></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="reviewComment" rows="3" placeholder="Share your experience..."
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit-review">Post Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Integration -->
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+
+    <!-- JavaScript -->
+    <script src="../js/booking.js"></script>
+    <script src="../js/reviews.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/cities.js"></script>
+</body>
+
+</html>

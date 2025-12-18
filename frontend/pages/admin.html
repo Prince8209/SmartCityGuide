@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Smart City Guide</title>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="../assets/css/fonts.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../assets/css/fontawesome-fixed.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <i class="fas fa-city"></i>
+                <span>Smart<span style="font-weight: 800;">CityGuide</span></span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="cities.html" class="nav-link">Cities</a>
+                <a href="features.html" class="nav-link">Features</a>
+                <a href="itinerary.html" class="nav-link">Itinerary</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <div class="nav-buttons">
+                    <!-- Auth buttons injected by JS -->
+                </div>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div
+        style="background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%); padding: 120px 0 60px; text-align: center; color: white;">
+        <div class="container">
+            <h1 style="font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 1rem;">
+                <i class="fas fa-user-shield" style="margin-right: 1rem; color: #63b3ed;"></i>Admin Dashboard
+            </h1>
+            <p style="font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: 0 auto; color: #e2e8f0;">
+                Manage cities, users, reviews, and platform settings
+            </p>
+        </div>
+    </div>
+
+    <!-- Admin Content -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+
+            <!-- Statistics -->
+            <div id="statsContainer" class="stats-grid" style="margin-top: -4rem; position: relative; z-index: 10;">
+                <div class="stat-card">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading statistics...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cities Management -->
+            <div class="admin-section" style="margin-top: 3rem;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem;">
+                    <div>
+                        <h2 style="font-size: 1.8rem; color: #2d3748; margin-bottom: 0.5rem;">
+                            <i class="fas fa-city" style="color: #667eea; margin-right: 0.5rem;"></i> City Management
+                        </h2>
+                        <p style="color: #718096;">View and manage all available city guides</p>
+                    </div>
+                    <button class="btn-signup" onclick="AdminPanel.showAddCityForm()"
+                        style="padding: 0.8rem 1.5rem; font-size: 1rem; box-shadow: 0 4px 6px rgba(102, 126, 234, 0.25);">
+                        <i class="fas fa-plus"></i> Add New City
+                    </button>
+                </div>
+                <div id="citiesTable">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading cities...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bookings Management -->
+            <div class="admin-section" style="margin-top: 3rem;">
+                <div style="margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem;">
+                    <h2 style="font-size: 1.8rem; color: #2d3748; margin-bottom: 0.5rem;">
+                        <i class="fas fa-ticket-alt" style="color: #ed8936; margin-right: 0.5rem;"></i> Booking
+                        Management
+                    </h2>
+                    <p style="color: #718096;">View and manage all trip bookings</p>
+                </div>
+                <div id="bookingsTable">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading bookings...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Management -->
+            <div class="admin-section">
+                <div style="margin-bottom: 2rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 1rem;">
+                    <h2 style="font-size: 1.8rem; color: #2d3748; margin-bottom: 0.5rem;">
+                        <i class="fas fa-users" style="color: #667eea; margin-right: 0.5rem;"></i> User Management
+                    </h2>
+                    <p style="color: #718096;">Monitor registered users and their roles</p>
+                </div>
+                <div id="usersTable">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading users...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <i class="fas fa-city"></i>
+                        <span>Smart<span style="font-weight: 800;">CityGuide</span></span>
+                    </div>
+                    <p class="footer-desc">Admin Control Panel</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="cities.html">Cities</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart City Guide. Admin Console.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- City Form Modal -->
+    <div id="cityFormModal" class="modal">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 id="cityFormTitle" style="font-size: 1.5rem; color: #2d3748;">Add New City</h2>
+                <button onclick="AdminPanel.closeModal()"
+                    style="background: none; border: none; font-size: 2rem; cursor: pointer; color: #718096;">&times;</button>
+            </div>
+            <form id="cityForm" style="display: grid; gap: 1rem;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">City Name *</label>
+                        <input type="text" id="cityName" required
+                            style="width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">State *</label>
+                        <input type="text" id="cityState" required
+                            style="width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Description *</label>
+                    <textarea id="cityDescription" required rows="3"
+                        style="width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px;"></textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">City Image
+                            (JPG/PNG)</label>
+                        <input type="file" id="cityImageFile" accept=".jpg,.jpeg,.png"
+                            style="width: 100%; padding: 0.5rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Region</label>
+                        <select id="cityRegion"
+                            style="width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                            <option value="">Select Region</option>
+                            <option value="North">North</option>
+                            <option value="South">South</option>
+                            <option value="East">East</option>
+                            <option value="West">West</option>
+                            <option value="Central">Central</option>
+                            <option value="Northeast">Northeast</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Budget/Day (₹)</label>
+                        <input type="number" id="cityBudget"
+                            style="width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Category</label>
+                        <input type="text" id="cityCategory"
+                            style="width: 100%; padding: 0.8rem; border: 2px solid #e2e8f0; border-radius: 8px;">
+                    </div>
+                </div>
+
+                <!-- Attractions Section -->
+                <div style="border-top: 2px solid #e2e8f0; margin-top: 1rem; padding-top: 1rem;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Attractions</h3>
+
+                    <div style="background: #f7fafc; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <input type="text" id="attrName" placeholder="Attraction Name"
+                                style="padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;">
+                            <select id="attrCategory"
+                                style="padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;">
+                                <option value="">Category</option>
+                                <option value="Historical">Historical</option>
+                                <option value="Nature">Nature</option>
+                                <option value="Spiritual">Spiritual</option>
+                                <option value="Adventure">Adventure</option>
+                                <option value="Shopping">Shopping</option>
+                                <option value="Cultural">Cultural</option>
+                            </select>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <textarea id="attrDesc" rows="2" placeholder="Description"
+                                style="padding: 0.5rem; border: 1px solid #cbd5e0; border-radius: 4px;"></textarea>
+                        </div>
+                        <button type="button" onclick="AdminPanel.addAttraction()"
+                            style="width: 100%; padding: 0.5rem; background: #48bb78; color: white; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">
+                            <i class="fas fa-plus"></i> Add Attraction
+                        </button>
+                    </div>
+
+                    <div id="attractionsList" style="max-height: 200px; overflow-y: auto;">
+                        <!-- Added attractions will appear here -->
+                        <p style="color: #a0aec0; text-align: center; font-style: italic;">No attractions added yet.</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                    <button type="button" onclick="AdminPanel.closeModal()"
+                        style="flex: 1; padding: 1rem; background: #cbd5e0; color: #2d3748; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Cancel</button>
+                    <button type="submit"
+                        style="flex: 1; padding: 1rem; background: #667eea; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Save
+                        City</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- API Integration -->
+    <script type="text/javascript" src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+
+</html>

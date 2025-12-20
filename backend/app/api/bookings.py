@@ -56,11 +56,20 @@ def create_booking():
         db.session.rollback()
         return jsonify({'success': False, 'error': str(e)}), 500
 
+from app.api.auth import token_required
+
 @bookings_bp.route('/api/bookings', methods=['GET'])
-def get_bookings():
-    """Get all bookings"""
+@token_required
+def get_bookings(current_user):
+    """Get bookings (Admin sees all, User sees own)"""
     try:
-        bookings = Booking.query.order_by(Booking.created_at.desc()).all()
+        if current_user.is_admin:
+            bookings = Booking.query.order_by(Booking.created_at.desc()).all()
+        else:
+            # For regular users, filter by their email
+            bookings = Booking.query.filter_by(customer_email=current_user.email)\
+                .order_by(Booking.created_at.desc()).all()
+
         return jsonify({
             'success': True,
             'count': len(bookings),

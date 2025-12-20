@@ -161,3 +161,54 @@ def create_city(current_user):
     except Exception as e:
         db.session.rollback()
         return jsonify({'success': False, 'error': str(e)}), 500
+
+@bp.route('/<int:city_id>', methods=['PUT'])
+@token_required
+def update_city(current_user, city_id):
+    """Update city details (Admin only)"""
+    try:
+        if not current_user.is_admin:
+            return jsonify({'success': False, 'error': 'Admin privileges required'}), 403
+
+        city = City.query.get_or_404(city_id)
+        data = request.get_json()
+
+        city.name = data.get('name', city.name)
+        city.state = data.get('state', city.state)
+        city.description = data.get('description', city.description)
+        city.image_url = data.get('image_url', city.image_url)
+        city.category = data.get('category', city.category)
+        city.region = data.get('region', city.region)
+        city.avg_budget_per_day = float(data.get('avg_budget_per_day') or 0) if 'avg_budget_per_day' in data else city.avg_budget_per_day
+        city.trip_types = data.get('trip_types', city.trip_types)
+        city.best_season = data.get('best_season', city.best_season)
+        city.recommended_days = data.get('recommended_days', city.recommended_days)
+
+        db.session.commit()
+
+        return jsonify({
+            'success': True,
+            'message': 'City updated successfully',
+            'city': city.to_dict()
+        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+
+@bp.route('/<int:city_id>', methods=['DELETE'])
+@token_required
+def delete_city(current_user, city_id):
+    """Delete city (Admin only)"""
+    try:
+        if not current_user.is_admin:
+            return jsonify({'success': False, 'error': 'Admin privileges required'}), 403
+
+        city = City.query.get_or_404(city_id)
+        db.session.delete(city)
+        db.session.commit()
+
+        return jsonify({'success': True, 'message': 'City deleted successfully'})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'error': str(e)}), 500
+

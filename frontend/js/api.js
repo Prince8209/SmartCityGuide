@@ -68,6 +68,19 @@ class APIClient {
         });
     }
 
+    async updateCity(id, cityData) {
+        return await this.request(API_CONFIG.ENDPOINTS.CITY_BY_ID(id), {
+            method: 'PUT',
+            body: JSON.stringify(cityData)
+        });
+    }
+
+    async deleteCity(id) {
+        return await this.request(API_CONFIG.ENDPOINTS.CITY_BY_ID(id), {
+            method: 'DELETE'
+        });
+    }
+
     async getRegions() {
         return await this.request(API_CONFIG.ENDPOINTS.REGIONS);
     }
@@ -164,7 +177,34 @@ class APIClient {
             throw error;
         }
     }
+
+    // Favorites
+    async getFavorites() {
+        return await this.request(API_CONFIG.ENDPOINTS.FAVORITES);
+    }
+
+    async addFavorite(cityId) {
+        return await this.request(`${API_CONFIG.ENDPOINTS.FAVORITES}/${cityId}`, {
+            method: 'POST'
+        });
+    }
+
+    async removeFavorite(cityId) {
+        return await this.request(`${API_CONFIG.ENDPOINTS.FAVORITES}/${cityId}`, {
+            method: 'DELETE'
+        });
+    }
+
+    // Admin
+    async getStats() {
+        return await this.request(API_CONFIG.ENDPOINTS.ADMIN_STATS);
+    }
+
+    async getUsers() {
+        return await this.request(API_CONFIG.ENDPOINTS.ADMIN_USERS);
+    }
 }
+
 
 // Create global instance
 const api = new APIClient();

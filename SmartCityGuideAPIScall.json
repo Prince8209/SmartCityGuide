@@ -1,0 +1,382 @@
+{
+    "info": {
+        "_postman_id": "smart-city-guide-full",
+        "name": "Smart City Guide",
+        "description": "Complete API Collection for Smart City Guide",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Signup",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"newuser@example.com\",\n    \"username\": \"newuser\",\n    \"password\": \"password123\",\n    \"full_name\": \"New User\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/signup",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "signup"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"newuser@example.com\",\n    \"password\": \"password123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "pm.environment.set(\"token\", jsonData.token);"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Cities",
+            "item": [
+                {
+                    "name": "Get All Cities",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities?page=1&limit=9",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "9"
+                                },
+                                {
+                                    "key": "search",
+                                    "value": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "region",
+                                    "value": "",
+                                    "disabled": true
+                                },
+                                {
+                                    "key": "trip_type",
+                                    "value": "",
+                                    "disabled": true
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get City by ID",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create City (Admin)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Test City\",\n    \"state\": \"Test State\",\n    \"description\": \"A beautiful test city.\",\n    \"image_url\": \"placeholder.jpg\",\n    \"category\": \"Nature\",\n    \"region\": \"North\",\n    \"avg_budget_per_day\": 2000,\n    \"trip_types\": [\"Nature\", \"Adventure\"],\n    \"best_season\": \"Oct-Mar\",\n    \"recommended_days\": \"2-3 Days\",\n    \"attractions\": [\n        {\n            \"name\": \"Test Attraction\",\n            \"category\": \"Nature\",\n            \"description\": \"A lovely spot.\"\n        }\n    ]\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/cities",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Regions",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities/regions",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities",
+                                "regions"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Trip Types",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities/trip-types",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities",
+                                "trip-types"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Attraction Categories",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities/attraction-categories",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities",
+                                "attraction-categories"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Reviews",
+            "item": [
+                {
+                    "name": "Get Reviews for City",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/reviews/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "reviews",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Add Review",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"city_id\": 1,\n    \"rating\": 5,\n    \"comment\": \"Amazing experience!\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/reviews",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "reviews"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Bookings",
+            "item": [
+                {
+                    "name": "Get Bookings",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/bookings/api/bookings",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings",
+                                "api",
+                                "bookings"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Booking",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"city_name\": \"New Delhi\",\n    \"customer_name\": \"John Doe\",\n    \"customer_email\": \"john@example.com\",\n    \"customer_phone\": \"1234567890\",\n    \"check_in_date\": \"2025-12-25\",\n    \"check_out_date\": \"2025-12-30\",\n    \"num_travelers\": 2,\n    \"daily_budget\": 3000\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/bookings/api/bookings",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings",
+                                "api",
+                                "bookings"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Upload",
+            "item": [
+                {
+                    "name": "Upload File (Local)",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "file",
+                                    "type": "file",
+                                    "src": []
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/upload/local",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "upload",
+                                "local"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://127.0.0.1:5000/api",
+            "type": "string"
+        }
+    ]
+}

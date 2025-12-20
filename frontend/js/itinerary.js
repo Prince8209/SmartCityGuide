@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     logDebug('DOM Loaded');
     await loadFormOptions();
     setupEventListeners();
+    setTimeout(restoreItinerary, 500); // Small delay to ensure options are loaded
 });
 
 // Load dropdown options
@@ -130,7 +131,19 @@ async function generateItinerary() {
 
         // Render Itinerary
         renderItinerary(container, itinerary, city.name);
-        logDebug('Rendered itinerary');
+
+        // SAVE TO LOCAL STORAGE
+        const savedData = {
+            cityId,
+            duration,
+            category,
+            style,
+            itinerary,
+            cityName: city.name,
+            timestamp: Date.now()
+        };
+        localStorage.setItem('scg_itinerary_v1', JSON.stringify(savedData));
+        logDebug('Itinerary saved to storage');
 
     } catch (error) {
         console.error('Error generating itinerary:', error);
@@ -139,6 +152,50 @@ async function generateItinerary() {
     } finally {
         generateBtn.innerHTML = originalBtnText;
         generateBtn.disabled = false;
+    }
+}
+
+// Restore Itinerary from Storage
+function restoreItinerary() {
+    try {
+        const saved = localStorage.getItem('scg_itinerary_v1');
+        if (!saved) return;
+
+        const data = JSON.parse(saved);
+        const container = document.querySelector('.section .container > div > div:last-child');
+
+        // Restore Inputs
+        const selects = document.querySelectorAll('select');
+        if (selects[0]) selects[0].value = data.cityId;
+        const durationInput = document.querySelector('input[type="number"]');
+        if (durationInput) durationInput.value = data.duration;
+        if (selects[1]) selects[1].value = data.category;
+        if (selects[2]) selects[2].value = data.style;
+
+        // Restore View
+        if (container && data.itinerary && data.cityName) {
+            renderItinerary(container, data.itinerary, data.cityName);
+            logDebug('Restored itinerary from storage');
+
+            // Add Clear Button if not present
+            if (!document.getElementById('btnClearItinerary')) {
+                const clearBtn = document.createElement('button');
+                clearBtn.id = 'btnClearItinerary';
+                clearBtn.innerHTML = '<i class="fas fa-trash"></i> Clear Plan';
+                clearBtn.className = 'btn-city';
+                clearBtn.style.marginTop = '1rem';
+                clearBtn.style.background = '#e53e3e';
+                clearBtn.onclick = () => {
+                    if (confirm('Clear this itinerary?')) {
+                        localStorage.removeItem('scg_itinerary_v1');
+                        location.reload();
+                    }
+                };
+                container.appendChild(clearBtn);
+            }
+        }
+    } catch (e) {
+        console.error('Failed to restore itinerary', e);
     }
 }
 

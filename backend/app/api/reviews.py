@@ -30,7 +30,7 @@ def get_reviews(city_id):
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
 
-@reviews_bp.route('/', methods=['POST'])
+@reviews_bp.route('', methods=['POST'])
 @token_required
 def add_review(current_user):
     """Add a new review"""

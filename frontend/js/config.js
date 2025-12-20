@@ -23,6 +23,13 @@ const API_CONFIG = {
         REVIEWS: '/reviews',
 
         // Upload
-        UPLOAD: '/upload/local'
+        UPLOAD: '/upload/local',
+
+        // Admin
+        ADMIN_STATS: '/admin/stats',
+        ADMIN_USERS: '/admin/users',
+
+        // Favorites
+        FAVORITES: '/favorites'
     }
 };

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Smart City Guide</title>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="../assets/css/fonts.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        .profile-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .profile-info h1 {
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .profile-info p {
+            color: #718096;
+            font-size: 1.1rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .tab-btn {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            font-weight: 600;
+            color: #718096;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .booking-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #667eea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .booking-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #c6f6d5;
+            color: #2f855a;
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <i class="fas fa-city"></i>
+                <span>Smart<span style="font-weight: 800;">CityGuide</span></span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="cities.html" class="nav-link">Cities</a>
+                <a href="features.html" class="nav-link">Features</a>
+                <a href="itinerary.html" class="nav-link">Itinerary</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+
+                <div class="nav-buttons">
+                    <button class="btn-login" onclick="window.location.href='login.html'">
+                        <i class="fas fa-user"></i> Login
+                    </button>
+                    <button class="btn-signup" onclick="window.location.href='signup.html'">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                </div>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container" style="padding-top: 100px; padding-bottom: 60px;">
+
+        <div class="profile-header">
+            <div class="profile-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="profile-info">
+                <h1 id="userName">Loading...</h1>
+                <p id="userEmail">...</p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('bookings')">
+                <i class="fas fa-ticket-alt"></i> My Bookings
+            </button>
+            <button class="tab-btn" onclick="switchTab('favorites')">
+                <i class="fas fa-heart"></i> My Favorites
+            </button>
+        </div>
+
+        <!-- Bookings Tab -->
+        <div id="bookings" class="tab-content active">
+            <h2 style="margin-bottom: 1.5rem;">Your Trips</h2>
+            <div id="bookingsList">
+                <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading bookings...</div>
+            </div>
+        </div>
+
+        <!-- Favorites Tab -->
+        <div id="favorites" class="tab-content">
+            <h2 style="margin-bottom: 1.5rem;">Saved Destinations</h2>
+            <div id="favoritesList" class="favorites-grid">
+                <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading favorites...</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/config.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/cities.js"></script> <!-- Reusing for city card rendering -->
+    <script src="../js/profile.js"></script>
+</body>
+
+</html>

@@ -42,8 +42,14 @@ def create_app():
     app.register_blueprint(bookings.bookings_bp)
     app.register_blueprint(reviews.reviews_bp, url_prefix='/api/reviews')
     
+    from app.api.favorites import bp as favorites_bp
+    app.register_blueprint(favorites_bp, url_prefix='/api/favorites')
+    
     from app.api.upload import upload_bp
     app.register_blueprint(upload_bp, url_prefix='/api/upload')
+    
+    from app.api.admin import bp as admin_bp
+    app.register_blueprint(admin_bp, url_prefix='/api/admin')
     
     # Root endpoint
     @app.route('/')

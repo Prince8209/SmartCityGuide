@@ -48,11 +48,11 @@ function updateNavForLoggedInUser(user) {
         navButtons.innerHTML = `
             <div class="user-menu" style="display: flex; align-items: center; gap: 1rem;">
                 ${adminButtonHtml}
-                <span style="color: #2d3748; font-weight: 600; display: flex; align-items: center;">
+                <span style="color: #2d3748; font-weight: 600; display: flex; align-items: center; cursor: pointer;" onclick="window.location.href='${isInPages ? 'profile.html' : 'pages/profile.html'}'">
                     <i class="fas fa-user-circle" style="margin-right: 0.5rem; color: #667eea; font-size: 1.2rem;"></i>
                     ${user.username || user.full_name || 'User'}
                 </span>
-                <button onclick="logout()" class="btn-login" style="background: #e53e3e; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
+                <button onclick="logout()" class="btn-login" style="background: #e53e3e; color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;" title="Logout">
                     <i class="fas fa-sign-out-alt"></i>
                 </button>
             </div>

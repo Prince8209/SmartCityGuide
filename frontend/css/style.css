@@ -49,6 +49,10 @@
     --radius-md: 12px;
     --radius-lg: 16px;
     --radius-xl: 24px;
+
+    /* Status Colors */
+    --danger: #e53e3e;
+    --warning: #ed8936;
 }
 
 /* ========================================
@@ -556,6 +560,122 @@ button {
 }
 
 /* ========================================
+   ACTION BUTTONS
+   ======================================== */
+
+.btn-edit,
+.btn-delete {
+    width: 35px;
+    height: 35px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+    background: transparent;
+}
+
+.btn-edit {
+    color: var(--primary);
+}
+
+.btn-edit:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateY(-2px);
+}
+
+.btn-delete {
+    color: var(--danger);
+}
+
+.btn-delete:hover {
+    background: rgba(229, 62, 62, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Load More Button */
+.btn-load-more {
+    padding: 0.8rem 2rem;
+    background: var(--white);
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-load-more:hover {
+    background: var(--primary);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-load-more.loading {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+/* Booking & Review Buttons */
+.btn-book-submit,
+.btn-submit-review {
+    width: 100%;
+    padding: 1rem;
+    background: var(--gradient-primary);
+    color: var(--white);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: var(--spacing-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-book-submit:hover,
+.btn-submit-review:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-download-pdf {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--white);
+    color: var(--dark);
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    margin-top: var(--spacing-sm);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-download-pdf:hover {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+}
+
+.btn-close-success {
+    background: transparent;
+    color: var(--gray);
+    font-weight: 600;
+    margin-top: var(--spacing-sm);
+    padding: 0.5rem;
+}
+
+.btn-close-success:hover {
+    color: var(--dark);
+    text-decoration: underline;
+}
+
+/* ========================================
    FOOTER
    ======================================== */
 
@@ -728,6 +848,7 @@ button {
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
 /* ========================================
    SCROLL TO TOP BUTTON
    ======================================== */
@@ -772,6 +893,7 @@ button {
         opacity: 0;
         transform: translateX(-50px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -783,6 +905,7 @@ button {
         opacity: 0;
         transform: translateX(50px);
     }
+
     to {
         opacity: 1;
         transform: translateX(0);
@@ -790,9 +913,12 @@ button {
 }
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: scale(1);
     }
+
     50% {
         transform: scale(1.05);
     }
@@ -899,9 +1025,9 @@ button {
     font-size: 1.2rem;
 }
 
-.star-rating input:checked ~ label,
+.star-rating input:checked~label,
 .star-rating label:hover,
-.star-rating label:hover ~ label {
+.star-rating label:hover~label {
     color: #ecc94b;
 }
 
@@ -979,6 +1105,7 @@ button {
     0% {
         background-position: 200% 0;
     }
+
     100% {
         background-position: -200% 0;
     }
@@ -1012,6 +1139,7 @@ textarea:valid:not(:placeholder-shown) {
    ======================================== */
 
 @media print {
+
     .navbar,
     .footer,
     .btn-city,
@@ -1096,6 +1224,7 @@ textarea:valid:not(:placeholder-shown) {
    ======================================== */
 
 @media (max-width: 1024px) {
+
     /* Fix itinerary grid layout on tablets and mobile */
     [style*="grid-template-columns: 1fr 2fr"] {
         grid-template-columns: 1fr !important;
@@ -1125,6 +1254,7 @@ textarea:valid:not(:placeholder-shown) {
 
 /* Reduced motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {
@@ -1133,6 +1263,7 @@ textarea:valid:not(:placeholder-shown) {
         transition-duration: 0.01ms !important;
     }
 }
+
 /* ========================================
    BOOKING MODAL
    ======================================== */
@@ -1169,6 +1300,7 @@ textarea:valid:not(:placeholder-shown) {
         opacity: 0;
         transform: translateY(50px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1450,11 +1582,11 @@ textarea:valid:not(:placeholder-shown) {
     .booking-modal-content {
         max-height: 95vh;
     }
-    
+
     .form-row:has(.form-group:nth-child(2)) {
         grid-template-columns: 1fr;
     }
-    
+
     .cost-amount {
         font-size: 1.5rem;
     }
@@ -1531,33 +1663,7 @@ textarea:valid:not(:placeholder-shown) {
     background: #f7fafc;
 }
 
-.btn-edit,
-.btn-delete {
-    padding: 0.5rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 0.5rem;
-    transition: background 0.2s;
-}
 
-.btn-edit {
-    background: #ebf8ff;
-    color: #4299e1;
-}
-
-.btn-edit:hover {
-    background: #bee3f8;
-}
-
-.btn-delete {
-    background: #fff5f5;
-    color: #e53e3e;
-}
-
-.btn-delete:hover {
-    background: #fed7d7;
-}
 
 /* Modal Styles */
 .modal {

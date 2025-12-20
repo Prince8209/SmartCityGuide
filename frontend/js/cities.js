@@ -12,6 +12,7 @@ let currentFilters = {
     page: 1,
     limit: 6
 };
+let userFavorites = [];
 
 // DOM Elements
 const elements = {
@@ -47,6 +48,11 @@ async function init() {
             loadTripTypes()
         ]);
 
+        // Load favorites if user is logged in
+        if (localStorage.getItem('token')) {
+            await loadFavorites();
+        }
+
         // Check URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('search')) {
@@ -65,6 +71,75 @@ async function init() {
         showError('Failed to initialize page. Please make sure the backend server is running.');
     }
 }
+
+// Load Favorites
+async function loadFavorites() {
+    try {
+        const response = await api.getFavorites();
+        if (response.success) {
+            userFavorites = response.favorites; // Array of city IDs
+        }
+    } catch (error) {
+        console.error('Error loading favorites:', error);
+    }
+}
+
+// Toggle Favorite
+window.toggleFavorite = async function (cityId, btn) {
+    const icon = btn.querySelector('i');
+    const isAdding = !btn.classList.contains('active');
+
+    // Debug
+    console.log(`Toggling favorite: ${isAdding ? 'Adding' : 'Removing'} city ${cityId}`);
+
+    // Optimistic UI Update
+    btn.classList.toggle('active');
+    if (isAdding) {
+        icon.classList.remove('far');
+        icon.classList.add('fas');
+        icon.style.color = '#e53e3e';
+    } else {
+        icon.classList.remove('fas');
+        icon.classList.add('far');
+        icon.style.color = '#cbd5e0';
+    }
+
+    try {
+        let response;
+        if (isAdding) {
+            response = await api.addFavorite(cityId);
+        } else {
+            response = await api.removeFavorite(cityId);
+        }
+
+        if (!response.success) {
+            throw new Error(response.message || response.error || 'Request failed');
+        }
+
+        // Update local state
+        if (isAdding) {
+            userFavorites.push(cityId);
+        } else {
+            userFavorites = userFavorites.filter(id => id !== cityId);
+        }
+
+    } catch (error) {
+        console.error('Favorite update failed:', error);
+        alert(`Failed to save favorite: ${error.message}`);
+
+        // Revert UI
+        btn.classList.toggle('active');
+        if (isAdding) {
+            icon.classList.remove('fas');
+            icon.classList.add('far');
+            icon.style.color = '#cbd5e0';
+        } else {
+            icon.classList.remove('far');
+            icon.classList.add('fas');
+            icon.style.color = '#e53e3e';
+        }
+    }
+};
 
 // Load Regions for dropdown
 async function loadRegions() {
@@ -177,10 +252,18 @@ function renderCities(cities, append = false) {
             ? city.image_url
             : (city.image_url ? `../assets/images/cities/${city.image_url}` : '../assets/images/cities/default.jpg');
 
+        const isFavorite = userFavorites.includes(city.id);
+        const favClass = isFavorite ? 'active' : '';
+        const favIconClass = isFavorite ? 'fas' : 'far';
+        const favIconColor = isFavorite ? '#e53e3e' : '#cbd5e0';
+
         return `
         <div class="city-card" id="${city.name.toLowerCase()}">
             <div class="city-image" style="background-image: url('${imagePath}')">
                 <div class="city-badge">${city.badge || city.category}</div>
+                <button class="btn-favorite ${favClass}" onclick="toggleFavorite(${city.id}, this)">
+                    <i class="${favIconClass} fa-heart" style="color: ${favIconColor}"></i>
+                </button>
             </div>
             <div class="city-content">
                 <h3 class="city-name">${city.name}</h3>

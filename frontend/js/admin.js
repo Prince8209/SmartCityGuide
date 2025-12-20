@@ -36,27 +36,35 @@ const AdminPanel = {
     },
 
     // Load Dashboard Statistics (Mock)
-    loadStats() {
+    async loadStats() {
         const statsContainer = document.getElementById('statsContainer');
         if (!statsContainer) return;
 
-        // In a real app, these would come from an API
-        const stats = [
-            { title: 'Total Cities', value: '55', icon: 'fa-city', color: '#667eea' },
-            { title: 'Total Users', value: '1,234', icon: 'fa-users', color: '#48bb78' },
-            { title: 'Active Bookings', value: '89', icon: 'fa-ticket-alt', color: '#ed8936' },
-            { title: 'Total Reviews', value: '456', icon: 'fa-star', color: '#ecc94b' }
-        ];
+        try {
+            const response = await api.getStats();
+            if (response.success && response.stats) {
+                const s = response.stats;
+                const stats = [
+                    { title: 'Total Cities', value: s.cities, icon: 'fa-city', color: '#667eea' },
+                    { title: 'Total Users', value: s.users, icon: 'fa-users', color: '#48bb78' },
+                    { title: 'Active Bookings', value: s.bookings, icon: 'fa-ticket-alt', color: '#ed8936' },
+                    { title: 'Total Reviews', value: s.reviews, icon: 'fa-star', color: '#ecc94b' }
+                ];
 
-        statsContainer.innerHTML = stats.map(stat => `
-            <div class="stat-card">
-                <i class="fas ${stat.icon}" style="color: ${stat.color}"></i>
-                <div class="stat-content">
-                    <h3>${stat.value}</h3>
-                    <p>${stat.title}</p>
-                </div>
-            </div>
-        `).join('');
+                statsContainer.innerHTML = stats.map(stat => `
+                    <div class="stat-card">
+                        <i class="fas ${stat.icon}" style="color: ${stat.color}"></i>
+                        <div class="stat-content">
+                            <h3>${stat.value}</h3>
+                            <p>${stat.title}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        } catch (error) {
+            console.error('Error loading stats:', error);
+            statsContainer.innerHTML = '<p class="error">Failed to load statistics</p>';
+        }
     },
 
     // Fetch and Display Cities
@@ -220,54 +228,56 @@ const AdminPanel = {
         }
     },
 
-    // Load Users (Mock)
-    loadUsers() {
+    // Load Users
+    async loadUsers() {
         const usersTable = document.getElementById('usersTable');
         if (!usersTable) return;
 
-        const mockUsers = [
-            { id: 1, name: 'Admin User', email: 'admin@smartcityguide.com', role: 'Admin', status: 'Active' },
-            { id: 2, name: 'John Doe', email: 'john@example.com', role: 'User', status: 'Active' },
-            { id: 3, name: 'Jane Smith', email: 'jane@example.com', role: 'User', status: 'Isverified' }
-        ];
+        try {
+            const response = await api.getUsers();
+            if (response.success && response.users) {
+                const users = response.users;
 
-        let html = `
-            <table class="admin-table">
-                <thead>
+                let html = `
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Role</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                html += users.map(user => `
                     <tr>
-                        <th>User</th>
-                        <th>Role</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <td>
+                            <div style="font-weight: 600;">${user.full_name || user.username}</div>
+                            <small style="color: #718096;">${user.email}</small>
+                        </td>
+                        <td>
+                            <span style="background: ${user.is_admin ? '#ebf8ff' : '#f7fafc'}; color: ${user.is_admin ? '#4299e1' : '#718096'}; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">
+                                ${user.is_admin ? 'Admin' : 'User'}
+                            </span>
+                        </td>
+                        <td>
+                            ${new Date(user.created_at).toLocaleDateString()}
+                        </td>
+                        <td>
+                            <button class="btn-edit" title="Edit User" disabled style="opacity: 0.5; cursor: not-allowed;"><i class="fas fa-edit"></i></button>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-        `;
+                `).join('');
 
-        html += mockUsers.map(user => `
-            <tr>
-                <td>
-                    <div style="font-weight: 600;">${user.name}</div>
-                    <small style="color: #718096;">${user.email}</small>
-                </td>
-                <td>
-                    <span style="background: ${user.role === 'Admin' ? '#ebf8ff' : '#f7fafc'}; color: ${user.role === 'Admin' ? '#4299e1' : '#718096'}; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">
-                        ${user.role}
-                    </span>
-                </td>
-                <td>
-                    <span style="background: ${user.status === 'Active' ? '#f0fff4' : '#fff5f5'}; color: ${user.status === 'Active' ? '#48bb78' : '#e53e3e'}; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">
-                        ${user.status}
-                    </span>
-                </td>
-                <td>
-                    <button class="btn-edit" title="Edit User"><i class="fas fa-edit"></i></button>
-                </td>
-            </tr>
-        `).join('');
-
-        html += '</tbody></table>';
-        usersTable.innerHTML = html;
+                html += '</tbody></table>';
+                usersTable.innerHTML = html;
+            }
+        } catch (error) {
+            console.error('Error loading users:', error);
+            usersTable.innerHTML = '<p class="error">Failed to load users</p>';
+        }
     },
 
     // Modal Functions
@@ -347,13 +357,52 @@ const AdminPanel = {
         }
     },
 
-    editCity(id) {
-        alert('Edit functionality coming soon! (ID: ' + id + ')');
+    async editCity(id) {
+        try {
+            const response = await api.getCityById(id);
+            if (response.success && response.city) {
+                const city = response.city;
+
+                // Show modal
+                this.showAddCityForm();
+                document.getElementById('cityFormTitle').textContent = 'Edit City';
+
+                // Populate fields
+                document.getElementById('cityName').value = city.name;
+                document.getElementById('cityState').value = city.state;
+                document.getElementById('cityDescription').value = city.description;
+                document.getElementById('cityRegion').value = city.region || '';
+                document.getElementById('cityBudget').value = city.avg_budget_per_day;
+                document.getElementById('cityCategory').value = city.category || '';
+
+                // Populate attractions
+                this.currentAttractions = city.attractions || [];
+                this.renderAttractions();
+
+                // Set editing flag
+                document.getElementById('cityForm').dataset.editId = id;
+            }
+        } catch (error) {
+            console.error('Error fetching city details:', error);
+            alert('Failed to load city details');
+        }
     },
 
-    deleteCity(id) {
-        if (confirm('Are you sure you want to delete this city?')) {
-            alert('Delete functionality coming soon! (ID: ' + id + ')');
+    async deleteCity(id) {
+        if (confirm('Are you sure you want to delete this city? This action cannot be undone.')) {
+            try {
+                const response = await api.deleteCity(id);
+                if (response.success) {
+                    alert('City deleted successfully');
+                    this.loadCities();
+                    this.loadStats(); // Update stats
+                } else {
+                    throw new Error(response.error || 'Failed to delete city');
+                }
+            } catch (error) {
+                console.error('Error deleting city:', error);
+                alert('Error: ' + error.message);
+            }
         }
     },
 
@@ -415,14 +464,24 @@ const AdminPanel = {
                     cityData.image_url = cityImageUrl;
 
                     // 3. Send Data to API
-                    const response = await api.createCity(cityData);
+                    // 3. Send Data to API
+                    let response;
+                    const editId = form.dataset.editId;
+
+                    if (editId) {
+                        response = await api.updateCity(editId, cityData);
+                    } else {
+                        response = await api.createCity(cityData);
+                    }
 
                     if (response.success) {
-                        alert('City created successfully!');
+                        alert(`City ${editId ? 'updated' : 'created'} successfully!`);
                         this.closeModal();
                         this.loadCities(); // Refresh list
+                        this.loadStats(); // Update stats
+                        delete form.dataset.editId; // Clear edit mode
                     } else {
-                        throw new Error(response.message || 'Failed to create city');
+                        throw new Error(response.message || 'Failed to save city');
                     }
 
                     // Upload

@@ -12,6 +12,8 @@ A comprehensive travel guide platform designed to help users explore, plan, and 
 
 - **Explore Destinations**: Browsable catalog of **60+ Indian cities** with filters for Region, Trip Type, and Budget.
 - **Smart Itinerary Planner**: Generate personalized day-by-day travel plans based on your interests (Adventure, Heritage, Relaxed).
+- **Budget Tracker**: Track trip expenses and get personalized budget recommendations based on travel style.
+- **User Profile**: Manage your account details, bio, and travel preferences.
 - **Secure Authentication**: User Signup and Login system powered by JSON Web Tokens (JWT).
 - **Booking System**: Complete flow for booking trips, calculating costs, and managing reservations.
 - **Admin Dashboard**: Dedicated panel for managing cities, users, and bookings.

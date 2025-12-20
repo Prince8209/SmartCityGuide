@@ -14,6 +14,8 @@ This document details every file in the `frontend` directory.
 | **`reviews.js`** | **Controller** | **Reviews Modal**. Fetches and displays reviews. Handles submitting a new review. |
 | **`admin.js`** | **Controller** | **Admin Dashboard**. Protected (checks `is_admin` flag). Loads stats, lists cities (CRUD), bookings, and users. |
 | **`home.js`** | **Controller** | **Homepage**. Dynamic content for the landing page (e.g., featured cities). |
+| **`budget_tracker.js`** | **Feature** | **Budget Logic**. Expense tracking and budget recommendation algorithm. |
+| **`profile.js`** | **Controller** | **User Profile**. Handles fetching and updating user profile data. |
 | **`script.js`** | **Utility** | **Global UI**. Navbar toggling, global event listeners, and common UI utilities. |
 | **`config.js`** | **Config** | API Base URL configuration. |
 
@@ -26,6 +28,7 @@ This document details every file in the `frontend` directory.
 | **`itinerary.html`**| `pages/` | **Planner**. Interface to select preferences and generate a custom trip timeline. |
 | **`login.html`** | `pages/` | Login form. |
 | **`signup.html`** | `pages/` | Registration form. |
+| **`profile.html`** | `pages/` | **User Profile**. Page to view and edit user details and preferences. |
 | **`admin.html`** | `pages/` | **Dashboard**. Table views for managing Cities, Bookings, and Users. |
 | **`contact.html`** | `pages/` | Contact form and info. |
 | **`features.html`** | `pages/` | Static page listing site features. |

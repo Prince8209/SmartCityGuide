@@ -8,6 +8,9 @@ This document details every file in the `backend` directory.
 | :--- | :--- | :--- |
 | **`main.py`** | `backend/app/main.py` | **Entry Point**. Initializes Flask, configures database/CORS/secrets, registers API blueprints, and runs the server. |
 | **`config.py`** | `backend/app/database/config.py` | Sets up `SQLAlchemy` instance. Defines `init_db(app)` to connect DB and create tables. |
+| **`debug_db.py`** | `backend/debug_db.py` | Utility script to verify database connection and schema. |
+| **`check_admin_endpoints.py`** | `backend/check_admin_endpoints.py` | Utility script to test admin API endpoints. |
+| **`create_tables.py`** | `backend/create_tables.py` | standalone script to initialize database tables. |
 
 ## Data Models (`backend/app/models/`)
 These classes map directly to database tables.

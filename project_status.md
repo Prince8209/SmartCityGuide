@@ -1,5 +1,5 @@
 # Smart City Guide - Project Status
-**Date:** December 12, 2025
+**Date:** December 20, 2025
 
 ## ✅ Recent Accomplishments
 1.  **Database Expansion**:
@@ -10,22 +10,30 @@
 2.  **Verification**:
     *   Verified login functionality.
     *   Verified Itinerary page access.
+    
+3.  **New Features Implemented**:
+    *   **Budget Tracker**: Implemented expense tracking and budget recommendations (`frontend/js/budget_tracker.js`).
+    *   **User Profile**: Created User Profile page (`frontend/pages/profile.html`) with editing capabilities.
+    *   **Booking Feature**: Completed `booking.js` and integrated with backend API.
+
+4.  **Backend Enhancements**:
+    *   Added utility scripts: `debug_db.py`, `check_admin_endpoints.py`.
+    *   Verified Admin API endpoints.
 
 ## 🚧 Current Blocker / Next Task
-**Implementing Booking Feature**:
-*   We discovered that `frontend/js/booking.js` is **missing**.
-*   The "Book Trip" button on the Cities page currently throws an error because `openBookingModal` is not defined.
-*   `cities.html` needs `jspdf` library for PDF generation.
+**Documentation & Polish**:
+*   Updating project documentation to reflect the latest features.
+*   Final code cleanup and testing.
 
 ## 📂 Key Files
 *   **Schema**: `E:\SmartCityGuide\backend\schema.sql`
 *   **Sample Data**: `E:\SmartCityGuide\backend\sample_data.sql`
-*   **Missing File**: `E:\SmartCityGuide\frontend\js\booking.js` (Needs creation)
+*   **New Utils**: `E:\SmartCityGuide\backend\debug_db.py`
 
 ## 🔜 Next Steps (When you return)
-1.  **Create `booking.js`**: Implement the logic for the booking modal, cost calculation, and API submission.
-2.  **Update `cities.html`**: Add the `jspdf` script tag.
-3.  **Verify Booking Flow**: Test the full booking process from the UI to the database.
+1.  **Finalize Documentation**: Complete updates to `BACKEND_FILES.md` and `FRONTEND_FILES.md`.
+2.  **Final Testing**: Run a full end-to-end test of the user flow (Signup -> Search -> Plan -> Book -> Review).
+3.  **Deployment**: Prepare for deployment if required.
 
 ## 📝 Notes
 *   The database is fully seeded and running on MySQL.

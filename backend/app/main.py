@@ -35,20 +35,19 @@ def create_app():
     init_db(app)
     
     # Register blueprints
-    from app.api import auth, cities, bookings, reviews
+    # Register blueprints
+    from app.api import auth, cities, bookings
+    from app.api.features import reviews_bp, favorites_bp, users_bp, upload_bp, admin_bp
     
     app.register_blueprint(auth.bp, url_prefix='/api/auth')
     app.register_blueprint(cities.bp, url_prefix='/api/cities')
     app.register_blueprint(bookings.bookings_bp)
-    app.register_blueprint(reviews.reviews_bp, url_prefix='/api/reviews')
     
-    from app.api.favorites import bp as favorites_bp
+    # Secondary Features
+    app.register_blueprint(reviews_bp, url_prefix='/api/reviews')
     app.register_blueprint(favorites_bp, url_prefix='/api/favorites')
-    
-    from app.api.upload import upload_bp
+    app.register_blueprint(users_bp, url_prefix='/api/users')
     app.register_blueprint(upload_bp, url_prefix='/api/upload')
-    
-    from app.api.admin import bp as admin_bp
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
     
     # Root endpoint
@@ -58,10 +57,21 @@ def create_app():
             'name': 'Smart City Guide API',
             'version': '2.0.0',
             'database': 'MySQL',
+            'data_structures': {
+                'HashMap': 'City caching',
+                'Queue': 'Booking queue',
+                'Stack': 'Navigation history',
+                'LinkedList': 'Recent cities',
+                'BST': 'City ratings'
+            },
             'endpoints': {
                 'cities': '/api/cities',
                 'auth': '/api/auth',
-                'bookings': '/api/bookings'
+                'bookings': '/api/bookings',
+                'users': '/api/users',
+                'cache_stats': '/api/cities/cache/stats',
+                'top_rated': '/api/cities/top-rated',
+                'queue_status': '/api/bookings/queue/status'
             }
         })
     

@@ -61,6 +61,10 @@ class APIClient {
         return await this.request(API_CONFIG.ENDPOINTS.CITY_BY_ID(id));
     }
 
+    async exploreCity() {
+        return await this.request(API_CONFIG.ENDPOINTS.EXPLORE);
+    }
+
     async createCity(cityData) {
         return await this.request(API_CONFIG.ENDPOINTS.CITIES, {
             method: 'POST',

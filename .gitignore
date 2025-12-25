@@ -33,6 +33,14 @@ instance/
 .pytest_cache/
 .coverage
 htmlcov/
+*test_results*.json
+*_test_report.json
+
+# Presentations and Documentation
+presentation_slides.txt
+*PRESENTATION*.md
+presentation_content.md
+test_cases.md
 
 # Logs
 *.log
@@ -45,3 +53,8 @@ node_modules/
 dist/
 build/
 .parcel-cache/
+
+# Custom Exclusions
+gen.js
+gen.py
+sgen.py

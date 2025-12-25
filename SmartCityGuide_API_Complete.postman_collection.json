@@ -1,0 +1,559 @@
+{
+    "info": {
+        "name": "Smart City Guide API - Complete Collection",
+        "description": "Comprehensive API collection for Smart City Guide backend including all data structures endpoints",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:5000/api",
+            "type": "string"
+        },
+        {
+            "key": "auth_token",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Health & Info",
+            "item": [
+                {
+                    "name": "API Index",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:5000/",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "5000",
+                            "path": [
+                                ""
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Health Check",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/health",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "health"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Authentication",
+            "item": [
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "if (pm.response.code === 200) {",
+                                    "    var jsonData = pm.response.json();",
+                                    "    pm.collectionVariables.set(\"auth_token\", jsonData.token);",
+                                    "}"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"admin@smartcityguide.com\",\n  \"password\": \"admin123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Signup",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"username\": \"newuser123\",\n  \"password\": \"Test123456\",\n  \"full_name\": \"New User\",\n  \"phone\": \"9876543210\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/signup",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "signup"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Cities API",
+            "item": [
+                {
+                    "name": "Get All Cities",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities?page=1&limit=9",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities"
+                            ],
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "9"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get City by ID (with Cache)",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities/1?user_id=test123",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities",
+                                "1"
+                            ],
+                            "query": [
+                                {
+                                    "key": "user_id",
+                                    "value": "test123"
+                                }
+                            ]
+                        },
+                        "description": "Uses HashMap for caching. Second request should return from_cache: true"
+                    }
+                },
+                {
+                    "name": "Search Cities",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities?search=Mumbai",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities"
+                            ],
+                            "query": [
+                                {
+                                    "key": "search",
+                                    "value": "Mumbai"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Regions",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities/regions",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities",
+                                "regions"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Trip Types",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities/trip-types",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities",
+                                "trip-types"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Data Structures - Cache (HashMap)",
+            "item": [
+                {
+                    "name": "Get Cache Statistics",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities/cache/stats",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities",
+                                "cache",
+                                "stats"
+                            ]
+                        },
+                        "description": "Returns cache hits, misses, hit rate, and cache size using HashMap"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Data Structures - Ratings (BST)",
+            "item": [
+                {
+                    "name": "Get Top Rated Cities",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities/top-rated?limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities",
+                                "top-rated"
+                            ],
+                            "query": [
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Returns top rated cities in sorted order using Binary Search Tree"
+                    }
+                },
+                {
+                    "name": "Get Rating Statistics",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/cities/ratings/stats",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "cities",
+                                "ratings",
+                                "stats"
+                            ]
+                        },
+                        "description": "Returns rating statistics (min, max, average, tree height) using BST"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Bookings API",
+            "item": [
+                {
+                    "name": "Create Booking (Queue)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"city_name\": \"Mumbai\",\n  \"customer_name\": \"John Doe\",\n  \"customer_email\": \"john@example.com\",\n  \"customer_phone\": \"9876543210\",\n  \"check_in_date\": \"2024-02-01\",\n  \"check_out_date\": \"2024-02-05\",\n  \"num_travelers\": 2,\n  \"daily_budget\": 3000\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/bookings",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings"
+                            ]
+                        },
+                        "description": "Creates booking and adds to Queue for FIFO processing"
+                    }
+                },
+                {
+                    "name": "Get Bookings",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/bookings",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Data Structures - Queue",
+            "item": [
+                {
+                    "name": "Get Queue Status",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/bookings/queue/status",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "bookings",
+                                "queue",
+                                "status"
+                            ]
+                        },
+                        "description": "Returns booking queue status (pending, processed count) using Queue"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Data Structures - Navigation (Stack)",
+            "item": [
+                {
+                    "name": "Track Navigation",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user_id\": \"user123\",\n  \"page\": \"/cities/mumbai\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/users/navigation",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "navigation"
+                            ]
+                        },
+                        "description": "Tracks user navigation using Stack (LIFO)"
+                    }
+                },
+                {
+                    "name": "Get Navigation History",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/users/navigation/history?user_id=user123&limit=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "navigation",
+                                "history"
+                            ],
+                            "query": [
+                                {
+                                    "key": "user_id",
+                                    "value": "user123"
+                                },
+                                {
+                                    "key": "limit",
+                                    "value": "10"
+                                }
+                            ]
+                        },
+                        "description": "Returns navigation history using Stack"
+                    }
+                },
+                {
+                    "name": "Go Back",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"user_id\": \"user123\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/users/navigation/back",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "navigation",
+                                "back"
+                            ]
+                        },
+                        "description": "Goes back to previous page using Stack pop operation"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Data Structures - Recent Cities (LinkedList)",
+            "item": [
+                {
+                    "name": "Get Recent Cities",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/users/recent-cities?user_id=user123",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "recent-cities"
+                            ],
+                            "query": [
+                                {
+                                    "key": "user_id",
+                                    "value": "user123"
+                                }
+                            ]
+                        },
+                        "description": "Returns recently viewed cities (max 10) using LinkedList"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Reviews API",
+            "item": [
+                {
+                    "name": "Get City Reviews",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/reviews/city/1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "reviews",
+                                "city",
+                                "1"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Review",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{auth_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"city_id\": 1,\n  \"rating\": 5,\n  \"comment\": \"Amazing city!\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/reviews",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "reviews"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

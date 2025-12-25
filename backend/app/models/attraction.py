@@ -2,7 +2,7 @@
 Attraction Model
 Represents tourist spots within a city
 """
-from app.database.config import db
+from app.database import db
 from sqlalchemy import String, Integer, Float, Text, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 

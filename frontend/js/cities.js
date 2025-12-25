@@ -277,8 +277,11 @@ function renderCities(cities, append = false) {
                     ${renderAttractions(city.attractions)}
                 </div>
                 <div class="city-actions" style="display: flex; gap: 0.5rem;">
+                    <button class="btn-city" onclick="window.location.href='city-detail.html?id=${city.id}'" style="flex: 1; background: #2d3748; border: none;">
+                         <i class="fas fa-binoculars"></i> Explore
+                    </button>
                     <button class="btn-city" onclick="openBookingModal('${city.name}', ${city.avg_budget_per_day})" style="flex: 1;">
-                        <i class="fas fa-map-marked-alt"></i> Book Trip
+                        <i class="fas fa-map-marked-alt"></i> Book
                     </button>
                     <button class="btn-city btn-reviews" onclick="openReviewsModal(${city.id}, '${city.name}')" style="flex: 1; background: #fff; color: var(--primary); border: 1px solid var(--primary);">
                         <i class="fas fa-star"></i> Reviews

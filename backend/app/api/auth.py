@@ -1,18 +1,28 @@
 """
 Authentication API
 User login and signup
+Refactored to use OOP Controllers
 """
-from flask import Blueprint, jsonify, request
-from app.models import User, db
-from werkzeug.security import generate_password_hash, check_password_hash
-import jwt
-import os
-from datetime import datetime, timedelta
+from flask import Blueprint
+
 
 bp = Blueprint('auth', __name__)
-SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key')
+
+# Need to expose token_required for other modules to import
+# Re-exporting it from here for backward compatibility or move it to a util
+# Better to move token_required to a shared decorator file, but that's a larger refactor.
+# For now, let's keep it here but adapt since we moved logic to controller.
+# Wait, token_required is used by decorators. We need to keep it available.
+# Let's import it from a new location or keep it here.
+# Actually, I should extract token_required to a utility to avoid circular imports.
 
 from functools import wraps
+from flask import request, jsonify
+import jwt
+from app.models.user import User
+import os
+
+SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key')
 
 def token_required(f):
     @wraps(f)
@@ -34,74 +44,133 @@ def token_required(f):
         except Exception as e:
             return jsonify({'success': False, 'error': 'Token is invalid!', 'details': str(e)}), 401
             
+        if args:
+            return f(args[0], current_user, *args[1:], **kwargs)
         return f(current_user, *args, **kwargs)
     
     return decorated
 
-@bp.route('/signup', methods=['POST'])
-def signup():
-    """Register new user"""
-    try:
-        data = request.get_json()
-        
-        if not all(k in data for k in ['email', 'username', 'password', 'full_name']):
-            return jsonify({'success': False, 'error': 'Missing required fields'}), 400
-        
-        if User.query.filter_by(email=data['email']).first():
-            return jsonify({'success': False, 'error': 'Email already registered'}), 400
-        
-        if User.query.filter_by(username=data['username']).first():
-            return jsonify({'success': False, 'error': 'Username already taken'}), 400
-        
-        user = User(
-            email=data['email'],
-            username=data['username'],
-            hashed_password=generate_password_hash(data['password']),
-            full_name=data['full_name']
-        )
-        
-        db.session.add(user)
-        db.session.commit()
-        
-        token = jwt.encode({
-            'user_id': user.id,
-            'exp': datetime.utcnow() + timedelta(days=7)
-        }, SECRET_KEY, algorithm='HS256')
-        
-        return jsonify({
-            'success': True,
-            'message': 'User registered successfully',
-            'token': token,
-            'user': user.to_dict()
-        }), 201
-    except Exception as e:
-        db.session.rollback()
-        return jsonify({'success': False, 'error': str(e)}), 500
+# Routes
+from .base import BaseAPI
+from app.models.user import User
+from app.database import db
+from werkzeug.security import generate_password_hash, check_password_hash
+from app.utils import (
+    validate_email, validate_password, validate_phone, 
+    validate_name, validate_username, sanitize_string
+)
+from datetime import datetime, timedelta
 
-@bp.route('/login', methods=['POST'])
-def login():
-    """Login user"""
-    try:
-        data = request.get_json()
-        
-        if not data.get('email') or not data.get('password'):
-            return jsonify({'success': False, 'error': 'Email and password required'}), 400
-        
-        user = User.query.filter_by(email=data['email']).first()
-        
-        if not user or not check_password_hash(user.hashed_password, data['password']):
-            return jsonify({'success': False, 'error': 'Invalid credentials'}), 401
-        
-        token = jwt.encode({
-            'user_id': user.id,
-            'exp': datetime.utcnow() + timedelta(days=7)
-        }, SECRET_KEY, algorithm='HS256')
-        
-        return jsonify({
-            'success': True,
-            'message': 'Login successful',
-            'token': token,
-            'user': user.to_dict()
-        })
-    except Exception as e:
-        return jsonify({'success': False, 'error': str(e)}), 500
+# ... keep token_required ...
+# It is defined above in the original file, so I don't need to re-type it if I use start/end lines carefully.
+# Wait, I am replacing lines 54-58 (Routes section) and 7 (Import) primarily.
+# But I need to add the Classes.
+
+class SignupAPI(BaseAPI):
+    """
+    API for User Registration.
+    Polymorphism: Overrides post() method.
+    """
+    def post(self):
+        try:
+            data = request.get_json()
+            
+            # Check required fields
+            required_fields = ['email', 'username', 'password', 'full_name']
+            missing_fields = [field for field in required_fields if field not in data or not data[field]]
+            
+            if missing_fields:
+                return self.send_error(f'Missing required fields: {", ".join(missing_fields)}')
+            
+            # Sanitize inputs
+            email = sanitize_string(data['email'].lower(), 254)
+            username = sanitize_string(data['username'].lower(), 30)
+            full_name = sanitize_string(data['full_name'], 50)
+            password = data['password']
+            phone = sanitize_string(data.get('phone', ''), 15)
+            
+            # Validation
+            is_valid, error_msg = validate_email(email)
+            if not is_valid: return self.send_error(error_msg)
+            
+            is_valid, error_msg = validate_username(username)
+            if not is_valid: return self.send_error(error_msg)
+            
+            is_valid, error_msg = validate_password(password)
+            if not is_valid: return self.send_error(error_msg)
+            
+            if phone:
+                is_valid, error_msg = validate_phone(phone)
+                if not is_valid: return self.send_error(error_msg)
+
+            # Check existing (Direct DB usage, no repository layer)
+            if User.query.filter_by(email=email).first():
+                return self.send_error('Email already registered')
+            
+            if User.query.filter_by(username=username).first():
+                return self.send_error('Username already taken')
+            
+            # Create user
+            user = User(
+                email=email,
+                username=username,
+                hashed_password=generate_password_hash(password),
+                full_name=full_name,
+                phone=phone if phone else None
+            )
+            
+            db.session.add(user)
+            db.session.commit()
+            
+            # Generate Token
+            token = jwt.encode({
+                'user_id': user.id,
+                'exp': datetime.utcnow() + timedelta(days=7)
+            }, SECRET_KEY, algorithm='HS256')
+            
+            return self.send_response({
+                'message': 'User registered successfully',
+                'token': token,
+                'user': user.to_dict()
+            }, status=201)
+            
+        except Exception as e:
+            db.session.rollback()
+            return self.send_error(str(e), 500)
+
+class LoginAPI(BaseAPI):
+    """
+    API for User Login.
+    Polymorphism: Overrides post() method.
+    """
+    def post(self):
+        try:
+            data = request.get_json()
+            
+            if not data.get('email') or not data.get('password'):
+                return self.send_error('Email and password required')
+            
+            user = User.query.filter_by(email=data['email']).first()
+            
+            if not user or not check_password_hash(user.hashed_password, data['password']):
+                return self.send_error('Invalid credentials', 401)
+            
+            token = jwt.encode({
+                'user_id': user.id,
+                'exp': datetime.utcnow() + timedelta(days=7)
+            }, SECRET_KEY, algorithm='HS256')
+            
+            return self.send_response({
+                'message': 'Login successful',
+                'token': token,
+                'user': user.to_dict()
+            })
+        except Exception as e:
+            return self.send_error(str(e), 500)
+
+# Register Class-Based Views
+signup_view = SignupAPI.as_view('signup_api')
+login_view = LoginAPI.as_view('login_api')
+
+bp.add_url_rule('/signup', view_func=signup_view, methods=['POST'])
+bp.add_url_rule('/login', view_func=login_view, methods=['POST'])

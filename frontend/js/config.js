@@ -11,6 +11,7 @@ const API_CONFIG = {
         REGIONS: '/cities/regions',
         TRIP_TYPES: '/cities/trip-types',
         ATTRACTION_CATEGORIES: '/cities/attraction-categories',
+        EXPLORE: '/cities/explore',
 
         // Auth
         LOGIN: '/auth/login',

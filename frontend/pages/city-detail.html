@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="City Details - Smart City Guide">
+    <title>City Details | Smart City Guide</title>
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="../assets/css/fonts.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../assets/css/fontawesome.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        .hero-section {
+            position: relative;
+            height: 60vh;
+            min-height: 400px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            color: white;
+            padding-bottom: 4rem;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.8) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+        }
+
+        .city-badge-lg {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: -3rem;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 3rem;
+        }
+
+        .info-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .info-card i {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-card h3 {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-card p {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .attraction-card {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .attraction-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .attraction-img {
+            width: 200px;
+            height: 100%;
+            object-fit: cover;
+            min-height: 150px;
+        }
+
+        .attraction-content {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .gallery-item {
+            height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .sticky-book {
+            position: sticky;
+            top: 100px;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .attraction-card {
+                flex-direction: column;
+            }
+
+            .attraction-img {
+                width: 100%;
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <i class="fas fa-city"></i>
+                <span>Smart<span style="font-weight: 800;">CityGuide</span></span>
+            </a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="cities.html" class="nav-link">Cities</a>
+                <a href="features.html" class="nav-link">Features</a>
+                <a href="itinerary.html" class="nav-link">Itinerary</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+
+                <div class="nav-buttons">
+                    <button class="btn-login" onclick="window.location.href='login.html'">
+                        <i class="fas fa-user"></i> Login
+                    </button>
+                    <button class="btn-signup" onclick="window.location.href='signup.html'">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                </div>
+            </div>
+
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Content Placeholder (Loading) -->
+    <div id="loading" style="height: 100vh; display: flex; align-items: center; justify-content: center;">
+        <div style="text-align: center;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: #667eea;"></i>
+            <p style="margin-top: 1rem; color: #718096;">Loading city details...</p>
+        </div>
+    </div>
+
+    <div id="cityContent" style="display: none;">
+        <!-- Hero Section -->
+        <header class="hero-section" id="cityHero">
+            <div class="hero-overlay"></div>
+            <div class="container hero-content">
+                <span class="city-badge-lg" id="cityBadge">Badge</span>
+                <h1 id="cityName" style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 0.5rem;">City Name</h1>
+                <p id="cityState" style="font-size: 1.5rem; opacity: 0.9;"><i class="fas fa-map-marker-alt"></i> State,
+                    India</p>
+            </div>
+        </header>
+
+        <main class="container">
+            <!-- Info Cards -->
+            <div class="info-cards">
+                <div class="info-card">
+                    <i class="fas fa-sun"></i>
+                    <h3>Best Season</h3>
+                    <p id="infoSeason">Oct - Mar</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-rupee-sign"></i>
+                    <h3>Budget / Day</h3>
+                    <p id="infoBudget">₹2500</p>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Recommended</h3>
+                    <p id="infoDuration">3 Days</p>
+                </div>
+                <!-- Rating placeholder -->
+                <div class="info-card">
+                    <i class="fas fa-star" style="color: #ecc94b;"></i>
+                    <h3>Rating</h3>
+                    <p id="infoRating">4.5/5</p>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 3rem;">
+                <!-- Left Column -->
+                <div>
+                    <!-- About -->
+                    <section style="margin-bottom: 3rem;">
+                        <h2 style="margin-bottom: 1.5rem; color: #2d3748;">About this destination</h2>
+                        <p id="cityDescription" style="line-height: 1.8; color: #4a5568; font-size: 1.1rem;"></p>
+                    </section>
+
+                    <!-- Attractions -->
+                    <section style="margin-bottom: 3rem;">
+                        <h2 style="margin-bottom: 1.5rem; color: #2d3748;">Top Places to Visit</h2>
+                        <div id="attractionsList">
+                            <!-- Attractions rendered via JS -->
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column (Sticky Booking) -->
+                <div>
+                    <div class="sticky-book">
+                        <h3 style="margin-bottom: 1rem;">Ready to explore?</h3>
+                        <p style="margin-bottom: 1.5rem; color: #718096;">Book your perfect trip to <span
+                                id="bookCityName"></span> today.</p>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                <span>Typical Cost</span>
+                                <span style="font-weight: 700;" id="bookCost">₹0</span>
+                            </div>
+                            <div style="font-size: 0.9rem; color: #718096;">Per person / day</div>
+                        </div>
+
+                        <button id="bookNowBtn"
+                            style="width: 100%; padding: 1rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: transform 0.2s;">
+                            Book This Trip
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" style="margin-top: 5rem;">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <i class="fas fa-city"></i>
+                        <span>Smart<span style="font-weight: 800;">CityGuide</span></span>
+                    </div>
+                    <p class="footer-desc">Your trusted companion for discovering and exploring India's most beautiful
+                        cities.</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart City Guide. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/config.js?v=1"></script>
+    <script src="../js/api.js?v=2"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/city-detail.js"></script>
+</body>
+
+</html>

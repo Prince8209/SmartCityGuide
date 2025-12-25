@@ -3,7 +3,7 @@ Booking Model
 Trip bookings
 """
 from datetime import datetime
-from app.database.config import db
+from app.database import db
 from sqlalchemy import String, Integer, Text, DateTime, Date
 from sqlalchemy.orm import Mapped, mapped_column
 

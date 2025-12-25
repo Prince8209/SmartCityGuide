@@ -77,8 +77,12 @@
                         <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2d3748;">
                             <i class="fas fa-user" style="color: #667eea; margin-right: 0.5rem;"></i>Full Name
                         </label>
-                        <input type="text" id="signupName" required placeholder="Enter your full name"
+                        <input type="text" id="signupName" required placeholder="Enter your full name" minlength="3"
+                            maxlength="50" pattern="^[a-zA-Z\s]+$"
+                            title="Name should only contain letters and spaces (3-50 characters)"
                             style="width: 100%; padding: 0.9rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; transition: 0.3s;">
+                        <small id="nameError"
+                            style="color: #f56565; font-size: 0.85rem; display: none; margin-top: 0.25rem;"></small>
                     </div>
 
                     <div style="margin-bottom: 1.5rem;">
@@ -86,15 +90,22 @@
                             <i class="fas fa-envelope" style="color: #667eea; margin-right: 0.5rem;"></i>Email Address
                         </label>
                         <input type="email" id="signupEmail" required placeholder="Enter your email"
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address"
                             style="width: 100%; padding: 0.9rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; transition: 0.3s;">
+                        <small id="emailError"
+                            style="color: #f56565; font-size: 0.85rem; display: none; margin-top: 0.25rem;"></small>
                     </div>
 
                     <div style="margin-bottom: 1.5rem;">
                         <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2d3748;">
                             <i class="fas fa-phone" style="color: #667eea; margin-right: 0.5rem;"></i>Phone Number
                         </label>
-                        <input type="tel" id="signupPhone" required placeholder="+91 XXXXX XXXXX"
+                        <input type="tel" id="signupPhone" required placeholder="10-digit mobile number"
+                            pattern="^[6-9]\d{9}$" maxlength="10"
+                            title="Please enter a valid 10-digit Indian mobile number"
                             style="width: 100%; padding: 0.9rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; transition: 0.3s;">
+                        <small id="phoneError"
+                            style="color: #f56565; font-size: 0.85rem; display: none; margin-top: 0.25rem;"></small>
                     </div>
 
                     <div style="margin-bottom: 1.5rem;">
@@ -103,6 +114,8 @@
                         </label>
                         <div style="position: relative;">
                             <input type="password" id="signupPassword" required placeholder="Create a strong password"
+                                minlength="8" maxlength="128" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                                title="Password must be at least 8 characters with uppercase, lowercase, and number"
                                 style="width: 100%; padding: 0.9rem; padding-right: 3rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; transition: 0.3s;">
                             <button type="button" onclick="togglePassword('signupPassword', this)"
                                 style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #718096; cursor: pointer; font-size: 1.2rem;">
@@ -118,6 +131,8 @@
                             </div>
                             <span id="strengthText">Password strength: Weak</span>
                         </div>
+                        <small id="passwordError"
+                            style="color: #f56565; font-size: 0.85rem; display: none; margin-top: 0.25rem;"></small>
                     </div>
 
                     <div style="margin-bottom: 1.5rem;">
@@ -126,12 +141,15 @@
                         </label>
                         <div style="position: relative;">
                             <input type="password" id="confirmPassword" required placeholder="Re-enter your password"
+                                minlength="8" maxlength="128"
                                 style="width: 100%; padding: 0.9rem; padding-right: 3rem; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 1rem; transition: 0.3s;">
                             <button type="button" onclick="togglePassword('confirmPassword', this)"
                                 style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: none; border: none; color: #718096; cursor: pointer; font-size: 1.2rem;">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
+                        <small id="confirmPasswordError"
+                            style="color: #f56565; font-size: 0.85rem; display: none; margin-top: 0.25rem;"></small>
                     </div>
 
                     <div style="margin-bottom: 1.5rem;">

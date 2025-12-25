@@ -59,42 +59,216 @@ if (loginForm) {
 // Signup Form Handler
 const signupForm = document.getElementById('signupForm');
 if (signupForm) {
+    // Real-time validation helpers
+    const validators = {
+        name: (value) => {
+            if (!value || value.trim().length < 3) {
+                return 'Name must be at least 3 characters long';
+            }
+            if (value.length > 50) {
+                return 'Name must not exceed 50 characters';
+            }
+            if (!/^[a-zA-Z\s]+$/.test(value)) {
+                return 'Name should only contain letters and spaces';
+            }
+            return null;
+        },
+        email: (value) => {
+            if (!value) {
+                return 'Email is required';
+            }
+            const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+            if (!emailRegex.test(value)) {
+                return 'Please enter a valid email address';
+            }
+            return null;
+        },
+        phone: (value) => {
+            if (!value) {
+                return 'Phone number is required';
+            }
+            // Remove any spaces or dashes
+            const cleanPhone = value.replace(/[\s-]/g, '');
+            if (!/^[6-9]\d{9}$/.test(cleanPhone)) {
+                return 'Please enter a valid 10-digit Indian mobile number (starting with 6-9)';
+            }
+            return null;
+        },
+        password: (value) => {
+            if (!value) {
+                return 'Password is required';
+            }
+            if (value.length < 8) {
+                return 'Password must be at least 8 characters long';
+            }
+            if (!/[a-z]/.test(value)) {
+                return 'Password must contain at least one lowercase letter';
+            }
+            if (!/[A-Z]/.test(value)) {
+                return 'Password must contain at least one uppercase letter';
+            }
+            if (!/\d/.test(value)) {
+                return 'Password must contain at least one number';
+            }
+            return null;
+        },
+        confirmPassword: (value, password) => {
+            if (!value) {
+                return 'Please confirm your password';
+            }
+            if (value !== password) {
+                return 'Passwords do not match';
+            }
+            return null;
+        }
+    };
+
+    // Show error message
+    const showError = (inputId, message) => {
+        const errorElement = document.getElementById(inputId + 'Error');
+        const inputElement = document.getElementById(inputId);
+        if (errorElement && message) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            if (inputElement) {
+                inputElement.style.borderColor = '#f56565';
+            }
+        }
+    };
+
+    // Clear error message
+    const clearError = (inputId) => {
+        const errorElement = document.getElementById(inputId + 'Error');
+        const inputElement = document.getElementById(inputId);
+        if (errorElement) {
+            errorElement.textContent = '';
+            errorElement.style.display = 'none';
+        }
+        if (inputElement) {
+            inputElement.style.borderColor = '#48bb78';
+        }
+    };
+
+    // Add real-time validation
+    const nameInput = document.getElementById('signupName');
+    const emailInput = document.getElementById('signupEmail');
+    const phoneInput = document.getElementById('signupPhone');
+    const passwordInput = document.getElementById('signupPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+
+    if (nameInput) {
+        nameInput.addEventListener('blur', () => {
+            const error = validators.name(nameInput.value);
+            error ? showError('signupName', error) : clearError('signupName');
+        });
+        nameInput.addEventListener('input', () => {
+            if (nameInput.value.length >= 3) {
+                clearError('signupName');
+            }
+        });
+    }
+
+    if (emailInput) {
+        emailInput.addEventListener('blur', () => {
+            const error = validators.email(emailInput.value);
+            error ? showError('signupEmail', error) : clearError('signupEmail');
+        });
+        emailInput.addEventListener('input', () => {
+            const error = validators.email(emailInput.value);
+            if (!error) clearError('signupEmail');
+        });
+    }
+
+    if (phoneInput) {
+        phoneInput.addEventListener('blur', () => {
+            const error = validators.phone(phoneInput.value);
+            error ? showError('signupPhone', error) : clearError('signupPhone');
+        });
+        phoneInput.addEventListener('input', (e) => {
+            // Only allow numbers
+            e.target.value = e.target.value.replace(/\D/g, '');
+            if (e.target.value.length === 10) {
+                const error = validators.phone(e.target.value);
+                error ? showError('signupPhone', error) : clearError('signupPhone');
+            }
+        });
+    }
+
+    if (passwordInput) {
+        passwordInput.addEventListener('blur', () => {
+            const error = validators.password(passwordInput.value);
+            error ? showError('signupPassword', error) : clearError('signupPassword');
+        });
+    }
+
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('blur', () => {
+            const error = validators.confirmPassword(confirmPasswordInput.value, passwordInput.value);
+            error ? showError('confirmPassword', error) : clearError('confirmPassword');
+        });
+        confirmPasswordInput.addEventListener('input', () => {
+            if (confirmPasswordInput.value === passwordInput.value) {
+                clearError('confirmPassword');
+            }
+        });
+    }
+
+    // Form submission
     signupForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const nameInput = document.getElementById('signupName');
-        const emailInput = document.getElementById('signupEmail');
-        const phoneInput = document.getElementById('signupPhone');
-        const passwordInput = document.getElementById('signupPassword');
-        const confirmPasswordInput = document.getElementById('confirmPassword');
         const agreeTermsInput = document.getElementById('agreeTerms');
         const submitBtn = signupForm.querySelector('button[type="submit"]');
 
-        const name = nameInput.value;
-        const email = emailInput.value;
-        const phone = phoneInput.value;
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const phone = phoneInput.value.replace(/[\s-]/g, '');
         const password = passwordInput.value;
         const confirmPassword = confirmPasswordInput.value;
         const agreeTerms = agreeTermsInput.checked;
 
-        // Validation
-        if (!name || !email || !phone || !password || !confirmPassword) {
-            alert('Please fill in all fields');
-            return;
+        // Clear all previous errors
+        ['signupName', 'signupEmail', 'signupPhone', 'signupPassword', 'confirmPassword'].forEach(clearError);
+
+        // Validate all fields
+        let hasError = false;
+
+        const nameError = validators.name(name);
+        if (nameError) {
+            showError('signupName', nameError);
+            hasError = true;
         }
 
-        if (password !== confirmPassword) {
-            alert('Passwords do not match!');
-            return;
+        const emailError = validators.email(email);
+        if (emailError) {
+            showError('signupEmail', emailError);
+            hasError = true;
         }
 
-        if (password.length < 8) {
-            alert('Password must be at least 8 characters long');
-            return;
+        const phoneError = validators.phone(phone);
+        if (phoneError) {
+            showError('signupPhone', phoneError);
+            hasError = true;
+        }
+
+        const passwordError = validators.password(password);
+        if (passwordError) {
+            showError('signupPassword', passwordError);
+            hasError = true;
+        }
+
+        const confirmPasswordError = validators.confirmPassword(confirmPassword, password);
+        if (confirmPasswordError) {
+            showError('confirmPassword', confirmPasswordError);
+            hasError = true;
         }
 
         if (!agreeTerms) {
             alert('Please agree to Terms & Conditions');
+            hasError = true;
+        }
+
+        if (hasError) {
             return;
         }
 
@@ -105,7 +279,7 @@ if (signupForm) {
 
         try {
             const response = await api.signup({
-                username: name, // Using name as username for simplicity or split if needed
+                username: name.toLowerCase().replace(/\s+/g, ''), // Create username from name
                 email: email,
                 password: password,
                 full_name: name,

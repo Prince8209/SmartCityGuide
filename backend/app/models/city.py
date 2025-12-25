@@ -3,7 +3,7 @@ City Model
 Represents travel destinations
 """
 from datetime import datetime
-from app.database.config import db
+from app.database import db
 from sqlalchemy import String, Integer, Float, Text, DateTime, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
